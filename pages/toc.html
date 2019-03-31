@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div data-template="templates:surround" data-template-with="templates/datatable.html" data-template-at="datatable">
+
+    <div class="container-fluid">
+        <div class="card">
+        <div class="card-header" style="text-align:center;">
+            <h1 id="bestand"/>
+            <small>
+                <span id="amount"/> Dokumente
+            </small>
+            <h3>
+                <a href="show.html?document=about.xml&amp;directory=meta">
+                        <i class="fas fa-info" title="Info"/>
+                    </a>
+                |
+                <a href="../../../restxq/thun/api/collections/editions">
+                        <i class="fas fa-download" title="List TEI Documents"/>
+                    </a>
+            </h3>
+        </div>
+        <div class="card-body">
+            <table id="myTable" class="table table-striped table-condensed table-hover">
+                <thead>
+                    <tr align="center" font-size="1.0em">
+                        <th class="header">
+                            Absender
+                        </th>
+                        <th>
+                            Empfänger
+                        </th>
+                        <th>
+                            Ausstellungsort
+                        </th>
+                        <th>
+                            Datum
+                        </th>
+                        <th>
+                            zum Dokument
+                        </th>
+                    </tr>
+                </thead>
+                <tr data-template="app:toc"/>
+            </table>
+        </div>
+    </div>
+    </div>
+    <script>
+        $( document ).ready(function() {
+        
+        var fetched_param = decodeURIComponent($.urlParam("bestand"));
+        if (fetched_param == "autographen") {
+        var selected_bestand = "Autographen Leo Thun/Briefe aus anderen Archiven";
+        }
+        else if (fetched_param == "nachlass") {
+        var selected_bestand = "Nachlass Leo Thun";
+        }
+        else {
+        var selected_bestand = "Gesamtübersicht";
+        }
+        $('#bestand').text(selected_bestand);
+        var table = $('#myTable').DataTable({
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/German.json"
+            },
+            keepConditions: true,
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'excel', 'pdf'
+            ]
+        });
+        $('#amount').text(table.rows().count());
+        });
+    </script>
+</div>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div class="templates:surround?with=templates/page.html&amp;at=content">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"/>  
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.css" rel="stylesheet" type="text/css"/>
+    
+    <style type="text/css">
+        #visualization {
+        position: relative;
+        }
+    </style>
+    <script id="item-template" type="text/x-handlebars-template">
+        <table class="table table-bordered table-hover table-condensed">
+        <tr>
+            <th>Sender</th>
+            <td colspan="3" class="description">{{sender}}</td>
+            </tr>
+            {{#if receiver}}
+            <tr>
+            <th>Receiver</th>
+            <td colspan="3" class="description">{{receiver}}</td>
+            </tr>
+            {{/if}}
+            <tr>
+            <th>zum Dokument</th>
+            <td>
+                <a href="{{backlink}}">click to follow</a>
+                </td>
+                </tr>
+        </table>
+    </script>
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header" style="text-align:center;">
+                <h1>
+                    Zeitleiste
+                </h1>
+                <h3>
+                    <a>
+                        <i class="fas fa-info" title="Info" data-toggle="modal" data-target="#exampleModal"/>
+                    </a>
+                    |
+                    <a href="../analyze/timeline.xql">
+                        <i class="fas fa-download" title="Show the Data"/>
+                    </a>
+                </h3>
+            </div>
+            <div class="card-body">
+                <div id="visualization"/>
+            </div>
+        </div>
+        <div class="modal" tabindex="-1" role="dialog" id="exampleModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Info</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>Die Zeitleiste visualisiert den zeitlichen Verlauf der Korrespondenz. Mit <code>ctrl+shift</code> kann hinein- und hinausgeszoomt werden.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var datasource = "../analyze/timeline.xql"
+        var container = document.getElementById('visualization');
+        $.getJSON( datasource, function( data ) {
+        // create a handlebars template
+        var source   = document.getElementById('item-template').innerHTML;
+        var template = Handlebars.compile(document.getElementById('item-template').innerHTML);
+        var options = {
+        template: template,
+        stack: true,
+        horizontalScroll: true,
+        zoomKey: 'ctrlKey',
+        maxHeight: 600,
+        start: new Date(),
+        end: new Date(1000*60*60*24 + (new Date()).valueOf()),
+        margin: {
+        item: 10, // minimal margin between items
+        axis: 5   // minimal margin between items and the axis
+        },
+        orientation: 'top',
+        start: new Date(1854,01,01),
+        end: new Date(1855, 12, 31)
+        };
+        var timeline = new vis.Timeline(container, data.item, options);
+        });
+        
+    </script>
+</div>
