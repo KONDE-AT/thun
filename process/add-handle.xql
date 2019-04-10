@@ -8,7 +8,6 @@ declare namespace httpclient="http://exist-db.org/xquery/httpclient";
 import module namespace xmldb="http://exist-db.org/xquery/xmldb";
 import module namespace util="http://exist-db.org/xquery/util";
 import module namespace config="http://www.digital-archiv.at/ns/thun/config" at "../modules/config.xqm";
-import module namespace app="http://www.digital-archiv.at/ns/thun/templates" at "../modules/app.xql";
 
 (: a script to create handle pids and write them as <tei:idno> elements into the according TEI-Files, 
  : based upon https://github.com/acdh-oeaw/cr-xq-mets/blob/master/src/modules/resource/handle.xqm

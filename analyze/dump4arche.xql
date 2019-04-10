@@ -25,6 +25,27 @@ let $childCollections_av_dates := for $x in $childCollections
         <acdh:Collection rdf:about="{$col_id}">
             <acdh:hasAvailableDate>{$current_date}</acdh:hasAvailableDate>
             {$license}
+            <acdh:hasContact>
+                <acdh:Person rdf:about="http://d-nb.info/gnd/129199176"/>
+            </acdh:hasContact>
+            <acdh:hasMetadataCreator>
+                <acdh:Person rdf:about="http://d-nb.info/gnd/1043833846"/>
+            </acdh:hasMetadataCreator>
+            <acdh:hasCurator>
+                <acdh:Person rdf:about="http://d-nb.info/gnd/1043833846"/>
+            </acdh:hasCurator>
+            <acdh:hasDepositor>
+                <acdh:Person rdf:about="http://d-nb.info/gnd/1043833846"/>
+            </acdh:hasDepositor>
+            <acdh:hasOwner>
+                <acdh:Person rdf:about="http://d-nb.info/gnd/129199176"/>
+            </acdh:hasOwner>
+            <acdh:hasRightsholder>
+                <acdh:Person rdf:about="http://d-nb.info/gnd/129199176"/>
+            </acdh:hasRightsholder>
+            <acdh:hasLicensor>
+                <acdh:Person rdf:about="http://d-nb.info/gnd/129199176"/>
+            </acdh:hasLicensor>
         </acdh:Collection>
 
 let $avail_date := 
@@ -66,7 +87,7 @@ let $RDF :=
                 let $collection-uri := $app:data||'/'||$collName
                 let $document-names := xmldb:get-child-resources($collection-uri)
                 let $sample := $document-names
-                for $doc in $sample
+                for $doc in subsequence($sample, 1, 3)
                 let $resID := string-join(($collection-uri, $doc), '/')
                 let $node := try {
                         doc($resID)
@@ -74,7 +95,7 @@ let $RDF :=
                         false()
                     }
                 let $title := try {
-                        <acdh:hasTitle>{normalize-space(string-join($node//tei:titleStmt/tei:title//text(), ' '))}</acdh:hasTitle>
+                        <acdh:hasTitle>{normalize-space(string-join($node//tei:titleStmt//*[not(name()="note")]//text(), ' '))}</acdh:hasTitle>
                     } catch * {
                         <acdh:hasTitle>{$doc}</acdh:hasTitle>
                     }
@@ -134,9 +155,13 @@ let $RDF :=
                     else
                         ()
                 
-                let $pid := <acdh:hasPid>{$node//tei:publicationStmt//tei:idno[@type="handle"]/text()}</acdh:hasPid>
+                let $pid_str := $node//tei:publicationStmt//tei:idno[@type="handle"]/text()
                     
-                
+                let $pid := if ($pid_str != "")
+                    then
+                        <acdh:hasPid rdf:about="{$pid_str}"/>
+                    else
+                        ()
                 let $author := 
                         if($collName = "editions") then 
                         <acdh:authors>
@@ -188,6 +213,7 @@ let $RDF :=
                 where $collName != 'utils'        
                 return 
                     <acdh:Resource rdf:about="{string-join(($collID, $doc), '/')}">
+                        <acdh:hasCategory rdf:resource="https://vocabs.acdh.oeaw.ac.at/archecategory/dataset"/>
                         {$title}
                         {$pid}
                         {$startDate}
@@ -204,6 +230,24 @@ let $RDF :=
                         <acdh:hasSchema>https://www.tei-c.org/release/xml/tei/schema/relaxng/tei.rng</acdh:hasSchema>
                         <acdh:hasLicense rdf:resource="https://creativecommons.org/licenses/by/4.0/"/>
                         <acdh:isPartOf rdf:resource="{$collID}"/>
+                        <acdh:hasMetadataCreator>
+                <acdh:Person rdf:about="http://d-nb.info/gnd/1043833846"/>
+            </acdh:hasMetadataCreator>
+            <acdh:hasCurator>
+                <acdh:Person rdf:about="http://d-nb.info/gnd/1043833846"/>
+            </acdh:hasCurator>
+            <acdh:hasDepositor>
+                <acdh:Person rdf:about="http://d-nb.info/gnd/1043833846"/>
+            </acdh:hasDepositor>
+            <acdh:hasOwner>
+                <acdh:Person rdf:about="http://d-nb.info/gnd/129199176"/>
+            </acdh:hasOwner>
+            <acdh:hasRightsholder>
+                <acdh:Person rdf:about="http://d-nb.info/gnd/129199176"/>
+            </acdh:hasRightsholder>
+            <acdh:hasLicensor>
+                <acdh:Person rdf:about="http://d-nb.info/gnd/129199176"/>
+            </acdh:hasLicensor>
                     </acdh:Resource>
         }
         {$customResources}
