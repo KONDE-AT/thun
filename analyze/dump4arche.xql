@@ -15,6 +15,9 @@ let $project := $about//acdh:Project[1]
 let $topCollection := $about//acdh:Collection[not(acdh:isPartOf)]
 let $childCollections := $about//acdh:Collection[acdh:isPartOf]
 let $customResources := $about//acdh:Resource
+let $personBaseUrl : = "https://id.acdh.oeaw.ac.at/thun/persons/"
+let $placeBaseUrl : = "https://id.acdh.oeaw.ac.at/thun/places/"
+let $orgBaseUrl := "https://id.acdh.oeaw.ac.at/thun/institutions/"
 
 let $license := <acdh:hasLicense>CC-BY 4.0</acdh:hasLicense>
 let $current_date := current-date()
@@ -109,39 +112,45 @@ let $RDF :=
                     <acdh:hasDescription>{normalize-space(string-join($node//tei:msContents//text()))}</acdh:hasDescription>
                     else ()
                let $persons := if($collName = 'editions') then
-                    for $per in $node//tei:listPerson//tei:person[./tei:idno[@type="URL"]]
-                         let $pername := $per//tei:surname[1]/text()
-                         let $firstname := $per//tei:forename[1]/text()
-                         let $perID := $per//tei:idno[@type="URL"][1]
-                         return
-                             <acdh:hasActor>
+                    for $per in $node//tei:listPerson//tei:person[./@xml:id]
+                        let $pername := $per//tei:surname[1]/text()
+                        let $firstname := $per//tei:forename[1]/text()
+                        let $perID := $personBaseUrl||data($per/@xml:id)
+                        let $normID := if ($per//tei:idno[@type="URL"][1]) then <acdh:hasIdentifier rdf:resource="{data($per//tei:idno[@type="URL"][1])}"/> else ()
+                        return
+                            <acdh:hasActor>
                                  <acdh:Person rdf:about="{$perID}">
-                                     <acdh:hasLastName>{$pername}</acdh:hasLastName>
-                                     <acdh:hasFirstName>{$firstname}</acdh:hasFirstName>
-                                 </acdh:Person>
-                             </acdh:hasActor>
+                                    {$normID}
+                                    <acdh:hasLastName>{$pername}</acdh:hasLastName>
+                                    <acdh:hasFirstName>{$firstname}</acdh:hasFirstName>
+                                </acdh:Person>
+                            </acdh:hasActor>
                     else ()
                 let $places := if($collName = 'editions') then
-                    for $item in $node//tei:listPlace//tei:place[./tei:idno]
-                         let $placename := $item//tei:placeName[1]/text()
-                         let $itemID := $item//tei:idno[1]
-                         return
-                             <acdh:hasSpatialCoverage>
-                                 <acdh:Place rdf:about="{$itemID}">
-                                     <acdh:hasTitle>{$placename}</acdh:hasTitle>
-                                 </acdh:Place>
-                             </acdh:hasSpatialCoverage>
+                    for $item in $node//tei:listPlace//tei:place[./@xml:id]
+                        let $normID := if ($item//tei:idno[1]/text()) then <acdh:hasIdentifier rdf:resource="{($item//tei:idno[1]/text())}"/> else ()
+                        let $placename := $item//tei:placeName[1]/text()
+                        let $itemID := $placeBaseUrl||data($item/@xml:id)
+                        return
+                            <acdh:hasSpatialCoverage>
+                                <acdh:Place rdf:about="{$itemID}">
+                                    <acdh:hasTitle>{$placename}</acdh:hasTitle>
+                                    {$normID}
+                                </acdh:Place>
+                            </acdh:hasSpatialCoverage>
                     else ()
                 let $orgs := if($collName = 'editions') then
-                    for $item in $node//tei:listOrg//tei:org[./tei:idno[@subtype='GND']/text()]
-                         let $itemname := $item//tei:orgName[1]/text()
-                         let $itemID := $item//tei:idno[1]
-                         return
-                             <acdh:hasActor>
-                                 <acdh:Organisation rdf:about="{$itemID}">
-                                     <acdh:hasTitle>{$itemname}</acdh:hasTitle>
-                                 </acdh:Organisation>
-                             </acdh:hasActor>
+                    for $item in $node//tei:listOrg//tei:org[./@xml:id]
+                        let $itemname := $item//tei:orgName[1]/text()
+                        let $normID := if ($item//tei:idno[@type="URL"][1]) then <acdh:hasIdentifier rdf:resource="{$item//tei:idno[@type="URL"][1]/text()}"/> else ()
+                        let $itemID := $orgBaseUrl||data($item/@xml:id)
+                        return
+                            <acdh:hasActor>
+                                <acdh:Organisation rdf:about="{$itemID}">
+                                    <acdh:hasTitle>{$itemname}</acdh:hasTitle>
+                                    {$normID}
+                                </acdh:Organisation>
+                            </acdh:hasActor>
                     else ()
                 
                 let $next :=
@@ -210,6 +219,18 @@ let $RDF :=
                                 <acdh:Person rdf:about="https://id.acdh.oeaw.ac.at/thun/kraler-tanja"/>
                             </acdh:hasCreator>
                         </acdh:authors>
+                let $customXSL := if($collName = "editions")
+                    then
+                        <acdh:hasCustomXSL rdf:resource="https://id.acdh.oeaw.ac.at/thun/utils/tei2html.xsl"/>
+                    else if($doc = 'listplace.xml') then
+                        <acdh:hasCustomXSL rdf:resource="https://id.acdh.oeaw.ac.at/thun/utils/listplace.xsl"/>
+                    else if($doc = 'listperson.xml') then
+                        <acdh:hasCustomXSL rdf:resource="https://id.acdh.oeaw.ac.at/thun/utils/listperson.xsl"/>
+                    else if($doc = 'listorg.xml') then
+                        <acdh:hasCustomXSL rdf:resource="https://id.acdh.oeaw.ac.at/thun/utils/listorg.xsl"/>
+                    else if($collName = "meta") then
+                        <acdh:hasCustomXSL rdf:resource="https://id.acdh.oeaw.ac.at/thun/utils/tei2html.xsl"/>
+                    else ()
                         
                 where $collName != 'utils'        
                 return 
@@ -227,7 +248,7 @@ let $RDF :=
                         {$prev}
                         {$next}
                         <acdh:hasDissService rdf:resource="https://id.acdh.oeaw.ac.at/dissemination/customTEI2HTML"/>
-                        <acdh:hasCustomXSL rdf:resource="https://id.acdh.oeaw.ac.at/thun/utils/tei2html.xsl"/>
+                        {$customXSL}
                         <acdh:hasSchema>https://www.tei-c.org/release/xml/tei/schema/relaxng/tei.rng</acdh:hasSchema>
                         <acdh:hasLicense rdf:resource="https://creativecommons.org/licenses/by/4.0/"/>
                         <acdh:isPartOf rdf:resource="{$collID}"/>
