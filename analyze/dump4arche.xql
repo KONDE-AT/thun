@@ -43,9 +43,9 @@ let $childCollections_av_dates := for $x in $childCollections
             <acdh:hasOwner>
                 <acdh:Person rdf:about="http://d-nb.info/gnd/129199176"/>
             </acdh:hasOwner>
-            <acdh:hasRightsholder>
+            <acdh:hasRightsHolder>
                 <acdh:Person rdf:about="http://d-nb.info/gnd/129199176"/>
-            </acdh:hasRightsholder>
+            </acdh:hasRightsHolder>
             <acdh:hasLicensor>
                 <acdh:Person rdf:about="http://d-nb.info/gnd/129199176"/>
             </acdh:hasLicensor>
@@ -264,9 +264,9 @@ let $RDF :=
             <acdh:hasOwner>
                 <acdh:Person rdf:about="http://d-nb.info/gnd/129199176"/>
             </acdh:hasOwner>
-            <acdh:hasRightsholder>
+            <acdh:hasRightsHolder>
                 <acdh:Person rdf:about="http://d-nb.info/gnd/129199176"/>
-            </acdh:hasRightsholder>
+            </acdh:hasRightsHolder>
             <acdh:hasLicensor>
                 <acdh:Person rdf:about="http://d-nb.info/gnd/129199176"/>
             </acdh:hasLicensor>
