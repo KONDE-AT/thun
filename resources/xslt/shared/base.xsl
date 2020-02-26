@@ -50,8 +50,8 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
-    
-    <!--    footnotes -->   
+
+    <!--    footnotes -->
     <xsl:template match="tei:note">
         <xsl:element name="a">
             <xsl:attribute name="name">
@@ -108,7 +108,7 @@
             <xsl:when test="@target[ends-with(.,'.xml')]">
                 <xsl:element name="a">
                     <xsl:attribute name="href">
-                       show.html?ref=<xsl:value-of select="tokenize(./@target, '/')[4]"/>
+                       show.html?document=<xsl:value-of select="tokenize(./@target, '/')[4]"/>
                     </xsl:attribute>
                     <xsl:value-of select="."/>
                 </xsl:element>
@@ -159,7 +159,7 @@
             </xsl:element>
         </strong>
     </xsl:template>
-    
+
     <xsl:template match="tei:author[@ref]">
         <strong>
             <xsl:element name="a">
@@ -173,7 +173,7 @@
             </xsl:element>
         </strong>
     </xsl:template>
-    
+
     <xsl:template match="tei:rs[@ref or @key]">
         <strong>
             <xsl:element name="a">
@@ -369,7 +369,7 @@
         <xsl:value-of select="$y"/>
         <br/>
     </xsl:template>
-    
+
     <xsl:template match="tei:layoutDesc">
         <xsl:for-each select="tei:layout">
             <div>
@@ -378,7 +378,7 @@
             </div>
         </xsl:for-each>
     </xsl:template>
-    
+
     <xsl:template match="tei:locus">
         <xsl:variable name="folio-from-id">
             <xsl:value-of select="./@from"/>
@@ -398,7 +398,7 @@
             <xsl:value-of select="./@to"/>
         </a>
     </xsl:template>
-    
+
     <xsl:template match="tei:handDesc">
         <xsl:for-each select="./tei:handNote">
             <div>
@@ -406,13 +406,13 @@
             </div>
         </xsl:for-each>
     </xsl:template>
-    
+
     <xsl:template match="tei:title">
         <strong>
             <xsl:apply-templates/>
         </strong>
     </xsl:template>
-    
+
     <xsl:template match="tei:scriptDesc">
         <xsl:for-each select="./tei:scriptNote">
             <div>
@@ -421,7 +421,7 @@
             </div>
         </xsl:for-each>
     </xsl:template>
-    
+
     <xsl:template match="tei:bindingDesc">
         <xsl:for-each select="./tei:binding">
             <div>
@@ -430,19 +430,19 @@
             </div>
         </xsl:for-each>
     </xsl:template>
-    
+
     <xsl:template match="tei:list">
         <ul>
             <xsl:apply-templates/>
         </ul>
     </xsl:template>
-    
+
     <xsl:template match="tei:item">
         <li>
             <xsl:apply-templates/>
         </li>
     </xsl:template>
-    
+
     <xsl:template match="tei:listBibl">
         <xsl:for-each select=".//tei:bibl">
             <li>
@@ -450,14 +450,14 @@
             </li>
         </xsl:for-each>
     </xsl:template>
-    
+
     <xsl:template match="tei:ptr">
         <xsl:variable name="x">
             <xsl:value-of select="./@target"/>
         </xsl:variable>
         <a href="{$x}" class="fas fa-link"/>
     </xsl:template>
-    
+
     <xsl:template match="tei:msPart">
         <xsl:variable name="x">
             <xsl:number count="." level="any"/>
@@ -474,13 +474,13 @@
             </div>
         </div>
     </xsl:template>
-    
+
     <xsl:template match="tei:msContents">
         <xsl:for-each select=".//tei:msItem">
             <xsl:apply-templates select="."/>
         </xsl:for-each>
     </xsl:template>
-    
+
     <xsl:template match="tei:msItem">
         <xsl:variable name="x">
             <xsl:number level="any" count="tei:msItem"/>
@@ -561,11 +561,11 @@
             </tbody>
         </table>
     </xsl:template>
-    
+
     <xsl:template match="tei:gi">
         <code>
             <xsl:apply-templates/>
         </code>
     </xsl:template>
- 
+
 </xsl:stylesheet>

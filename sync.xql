@@ -5,7 +5,7 @@ declare namespace repo="http://exist-db.org/xquery/repo";
 
 import module namespace config="http://www.digital-archiv.at/ns/thun/config" at "modules/config.xqm";
 
-let $target-base-default := "/home/csae8092/repos"
+let $target-base-default := "/home/csae8092/repos/xml"
 let $app-name := doc(concat($config:app-root, "/repo.xml"))//repo:target/text()
 return
 
