@@ -1,9 +1,9 @@
 xquery version "3.1";
-module namespace app="http://www.digital-archiv.at/ns/thun/templates";
+module namespace app="http://www.digital-archiv.at/ns/templates";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace functx = 'http://www.functx.com';
 import module namespace templates="http://exist-db.org/xquery/templates" ;
-import module namespace config="http://www.digital-archiv.at/ns/thun/config" at "config.xqm";
+import module namespace config="http://www.digital-archiv.at/ns/config" at "config.xqm";
 import module namespace kwic = "http://exist-db.org/xquery/kwic" at "resource:org/exist/xquery/lib/kwic.xql";
 
 
@@ -285,12 +285,12 @@ declare function app:toc($node as node(), $model as map(*)) {
 
     let $bestand := request:get-parameter("bestand", "")
     let $docs := if ($bestand = "nachlass")
-        then 
+        then
             collection(concat($config:app-root, '/data/editions/'))[contains(.//tei:repository, 'Linie Tetschen, Nachlass Leo')]
         else if ($bestand = "gesamt")
-        then 
+        then
             collection(concat($config:app-root, '/data/editions/'))//tei:TEI
-        else 
+        else
             collection(concat($config:app-root, '/data/editions/'))[not(contains(.//tei:repository, 'Linie Tetschen, Nachlass Leo'))]
     for $title in $docs
     let $sender := fn:normalize-space($title//tei:rs[@role=contains($title//tei:rs/@role,'sender') and 1]/text()[1])
@@ -317,7 +317,7 @@ declare function app:toc($node as node(), $model as map(*)) {
             <td>
                 <a href="{app:hrefToDoc($title)}">{app:getDocName($title)}</a>
             </td>
-        </tr>   
+        </tr>
 };
 
 (:~
