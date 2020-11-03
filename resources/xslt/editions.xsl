@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tei="http://www.tei-c.org/ns/1.0" exclude-result-prefixes="tei" version="3.0"><!-- <xsl:strip-space elements="*"/>-->
     <xsl:import href="shared/base.xsl"/>
     <xsl:param name="document"/>
@@ -45,7 +44,7 @@
                             <a>
                                 <i class="fas fa-info" title="show more info about the document" data-toggle="modal" data-target="#exampleModalLong"/>
                             </a>
-                            | 
+                            |
                             <a href="{$path2source}">
                                 <i class="fas fa-download" title="show TEI source"/>
                             </a>
@@ -54,7 +53,7 @@
                             <input type="range" min="1" max="{$amount}" value="{$currentIx}" data-rangeslider="" style="width:100%;"/>
                             <a id="output" class="btn btn-main btn-outline-primary btn-sm" href="show.html?document=entry__1879-03-03.xml&amp;directory=editions" role="button">go to </a>
                         </h2>
-                        
+
                     </div>
                     <div class="col-md-2" style="text-align:right">
                         <xsl:if test="$next">
@@ -71,9 +70,45 @@
                 </div>
             </div>
         <div class="card-body">
-            <div>
-                <xsl:apply-templates select="//tei:div[@type='transcript']"/>
+            <div class="card" style="border-top:none">
+                <div class="row">
+                    <div class="col-sm">
+                        <div class="card-header">
+                            <h3>Regest</h3>
+                        </div>
+                        <div class="card-body" style="font-style:italic">
+                            <xsl:apply-templates select="//tei:msContents"/>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <div class="card-header">
+                            <h3>Schlagwörter</h3>
+                        </div>
+                        <div class="card-body">
+                            <xsl:for-each select=".//tei:term">
+                                <h4>
+                                    <a>
+                                        <xsl:attribute name="href">
+                                            <xsl:value-of select="concat('./hits.html?searchkey=', ./text())"/>
+                                        </xsl:attribute>
+                                        <span class="badge badge-info" style="background-color: #0063a6;">
+                                            <xsl:value-of select="."/>
+                                        </span>
+                                    </a>
+                                </h4>
+                            </xsl:for-each>
+                        </div>
+
+                    </div>
+                </div>
             </div>
+
+            <div class="card-header">
+                <h3>Edierter Text</h3>
+             </div>
+            <div class="card-body">
+                <xsl:apply-templates select="//tei:div[@type='transcript']"/>
+         </div>
             <div class="card-footer">
                 <p style="text-align:center;">
                     <xsl:for-each select=".//tei:note[not(./tei:p)]">
@@ -103,7 +138,7 @@
                     <blockquote class="blockquote">
                         <cite title="Source Title">
                             <xsl:value-of select="$signatur"/>; hrsg von Brigitte Mazohl, Christof Aichner und Tanja Kraler, in: In Die Korrespondenz von Leo von Thun-Hohenstein, https://thun-korrespondenz.acdh.oeaw.ac.at</cite>
-                    </blockquote>                    
+                    </blockquote>
                 </p>
             </div>
         </div>
@@ -181,10 +216,10 @@
                                                     https://creativecommons.org/licenses/by/4.0/
                                                 </a>
                                             </td>
-                                        </tr>                            
+                                        </tr>
                                     </tbody>
                                 </table>
-                            
+
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -194,13 +229,15 @@
             </div>
         </div>
     </xsl:template>
-    
+
     <xsl:template match="tei:msContents">
         <xsl:apply-templates/>
     </xsl:template>
-    
+    <xsl:template match="tei:term"></xsl:template>
+
+
     <xsl:template match="tei:p[@rend='footnote text']">
         <xsl:apply-templates/>
     </xsl:template>
-    
+
 </xsl:stylesheet>
