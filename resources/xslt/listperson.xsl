@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tei="http://www.tei-c.org/ns/1.0" exclude-result-prefixes="tei" version="2.0">
     <xsl:import href="shared/base_index.xsl"/>
     <xsl:param name="entiyID"/>
@@ -12,7 +11,7 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:variable>
-    <xsl:template match="/">       
+    <xsl:template match="/">
         <div class="modal" tabindex="-1" role="dialog" id="myModal">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -36,11 +35,11 @@
                                                 <xsl:value-of select="concat('hits.html?searchkey=', $entiyID)"/>
                                             </xsl:attribute>
                                             <xsl:attribute name="target">_blank</xsl:attribute>
-                                            mentioned in
+                                            erwähnt in:
                                         </a>
                                     </small>
                                 </h3>
-                                
+
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">x</span>
                                 </button>
@@ -65,7 +64,19 @@
                                                     <xsl:otherwise>
                                                         hallo
                                                     </xsl:otherwise>
-                                                </xsl:choose>                                                
+                                                </xsl:choose>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Lebensdaten</th>
+                                            <td>
+                                                <xsl:value-of select="../tei:note/tei:p[1]"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Kurzbiographie</th>
+                                            <td>
+                                                <xsl:value-of select="../tei:note/tei:p[2]"/>
                                             </td>
                                         </tr>
                                         <xsl:choose>
@@ -132,20 +143,6 @@
                                         </tr>
                                     </xsl:if>
                                 </table>
-                                <div>
-                                    <h4 data-toggle="collapse" data-target="#more"> more (tei structure)</h4>
-                                    <div id="more" class="collapse">
-                                        <xsl:choose>
-                                            <xsl:when test="//*[@xml:id=$entiyID or @id=$entiyID]">
-                                                <xsl:apply-templates select="//*[@xml:id=$entiyID or @id=$entiyID]" mode="start"/>
-                                            </xsl:when>
-                                            <xsl:otherwise>Looks like there exists no index entry for ID<strong>
-                                                <xsl:value-of select="concat(' ', $entiyID)"/>
-                                            </strong> 
-                                            </xsl:otherwise>
-                                        </xsl:choose>
-                                    </div>
-                                </div>
                             </div>
                         </xsl:when>
                         <xsl:otherwise>
@@ -156,9 +153,9 @@
                                 <h3 class="modal-title">
                                     Looks like there doesn't exist an index entry <strong>
                                         <xsl:value-of select="$entiyID"/>
-                                    </strong> for the entity you were looking for  
+                                    </strong> for the entity you were looking for 
                                 </h3>
-                                
+
                             </div>
                         </xsl:otherwise>
                     </xsl:choose>
