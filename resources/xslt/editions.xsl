@@ -131,7 +131,7 @@
                                         <xsl:text>#fna_</xsl:text>
                                         <xsl:number level="any" format="1" count="tei:note"/>
                                     </xsl:attribute>
-                                    <span style="font-size:7pt;vertical-align:super;">
+                                    <span style="font-size:7pt;vertical-align:super; margin-right: 0.4em">
                                         <xsl:number level="any" format="1" count="tei:note"/>
                                     </span>
                                 </a>
