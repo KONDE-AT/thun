@@ -71,36 +71,44 @@
             </div>
         <div class="card-body">
             <div class="card" style="border-top:none">
-                <div class="row">
-                    <div class="col-sm">
+
+
                         <div class="card-header">
                             <h3>Regest</h3>
                         </div>
                         <div class="card-body" style="font-style:italic">
                             <xsl:apply-templates select="//tei:msContents"/>
                         </div>
-                    </div>
-                    <div class="col-sm">
                         <div class="card-header">
-                            <h3>Schlagwörter</h3>
+                            <h3>Anmerkungen zum Dokument</h3>
                         </div>
                         <div class="card-body">
+                            <xsl:apply-templates select="//tei:physDesc"/>
+                        </div>
+
+
+                        <div class="card-header">
+                            <h3>Schlagworte</h3>
+                        </div>
+                        <div class="card-body">
+                            <h4>
                             <xsl:for-each select=".//tei:term">
-                                <h4>
+
                                     <a>
                                         <xsl:attribute name="href">
                                             <xsl:value-of select="concat('./hits.html?searchkey=', ./text())"/>
                                         </xsl:attribute>
-                                        <span class="badge badge-info" style="background-color: #0063a6;">
+                                        <span class="badge badge-info" style="background-color: #0063a6; margin-left: 1em;">
                                             <xsl:value-of select="."/>
                                         </span>
                                     </a>
-                                </h4>
+
                             </xsl:for-each>
+                            </h4>
                         </div>
 
-                    </div>
-                </div>
+
+
             </div>
 
             <div class="card-header">
@@ -233,7 +241,7 @@
     <xsl:template match="tei:msContents">
         <xsl:apply-templates/>
     </xsl:template>
-    <xsl:template match="tei:term"></xsl:template>
+    <xsl:template match="tei:term"/>
 
 
     <xsl:template match="tei:p[@rend='footnote text']">
