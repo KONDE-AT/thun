@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tei="http://www.tei-c.org/ns/1.0" exclude-result-prefixes="tei" version="2.0">
     <xsl:template match="tei:date[@*]">
         <abbr>
@@ -91,12 +90,20 @@
                 </div>
             </xsl:when><!-- Anlagen/Beilagen  -->
             <xsl:when test="@xml:id">
+                <a>
+                    <xsl:attribute name="name">
+                        <xsl:value-of select="lower-case(./@xml:id)"/>
+                    </xsl:attribute>
+                </a>
+
                 <xsl:element name="div">
-                    <xsl:attribute name="id">
+
+                    <xsl:attribute name="name">
                         <xsl:value-of select="@xml:id"/>
                     </xsl:attribute>
                     <xsl:apply-templates/>
                 </xsl:element>
+
             </xsl:when>
             <xsl:otherwise>
                 <xsl:apply-templates/>
