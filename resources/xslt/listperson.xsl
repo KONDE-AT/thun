@@ -35,7 +35,7 @@
                                                 <xsl:value-of select="concat('hits.html?searchkey=', $entiyID)"/>
                                             </xsl:attribute>
                                             <xsl:attribute name="target">_blank</xsl:attribute>
-                                            erwähnt in:
+                                            erwähnt in
                                         </a>
                                     </small>
                                 </h3>
