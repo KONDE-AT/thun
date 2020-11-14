@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tei="http://www.tei-c.org/ns/1.0" exclude-result-prefixes="tei" version="2.0">
     <xsl:import href="shared/base_index.xsl"/>
     <xsl:param name="entiyID"/>
@@ -21,21 +20,19 @@
                         <xsl:when test="$entity">
                             <xsl:variable name="entity" select="//tei:org[@xml:id=$entiyID]"/>
                             <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">
-                                    <span class="fa fa-times"/>
-                                </button>
                                 <h3 class="modal-title">
-                                    <xsl:value-of select="$entity/tei:orgName[1]"/>  
+                                    <xsl:value-of select="$entity/tei:orgName[1]"/>
+                                    <br/>
+                                    <small>
+                                        <a>
+                                            <xsl:attribute name="href">
+                                                <xsl:value-of select="concat('hits.html?searchkey=', $entiyID)"/>
+                                            </xsl:attribute>
+                                            <xsl:attribute name="target">_blank</xsl:attribute>
+                                            erwähnt in
+                                        </a>
+                                    </small>
                                 </h3>
-                                <h4>
-                                    <a>
-                                        <xsl:attribute name="href">
-                                            <xsl:value-of select="concat('hits.html?searchkey=', $entiyID)"/>
-                                        </xsl:attribute>
-                                        <xsl:attribute name="target">_blank</xsl:attribute>
-                                        erwähnt in
-                                    </a>
-                                </h4>
                             </div>
                             <div class="modal-body">
                                 <table class="table table-boardered table-hover">
@@ -45,7 +42,7 @@
                                             <xsl:value-of select="//tei:org[@xml:id=$entiyID]/tei:orgName[1]"/>
                                         </td>
                                     </tr>
-                                    
+
                                     <xsl:if test="count($entity//tei:orgName) &gt; 1">
                                         <xsl:for-each select="$entity//tei:orgName[position()&gt;1]">
                                             <tr>
@@ -56,7 +53,7 @@
                                             </tr>
                                         </xsl:for-each>
                                     </xsl:if>
-                                    
+
                                     <xsl:if test="$entity/tei:idno[@type='URL']">
                                         <tr>
                                             <th>URL:</th>
@@ -71,25 +68,11 @@
                                         </tr>
                                     </xsl:if>
                                 </table>
-                                <div>
-                                    <h4 data-toggle="collapse" data-target="#more"> more (tei structure)</h4>
-                                    <div id="more" class="collapse">
-                                        <xsl:choose>
-                                            <xsl:when test="//*[@xml:id=$entiyID or @id=$entiyID]">
-                                                <xsl:apply-templates select="//*[@xml:id=$entiyID or @id=$entiyID]" mode="start"/>
-                                            </xsl:when>
-                                            <xsl:otherwise>Looks like there exists no index entry for ID<strong>
-                                                <xsl:value-of select="concat(' ', $entiyID)"/>
-                                            </strong> 
-                                            </xsl:otherwise>
-                                        </xsl:choose>
-                                    </div>
-                                </div>
                             </div>
                         </xsl:when>
                     </xsl:choose>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
                     </div>
                 </div>
             </div>
