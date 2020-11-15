@@ -133,7 +133,7 @@
                                         <tr>
                                             <th>URL:</th>
                                             <td>
-                                                <a>
+                                                <a target="_blank" title="Öffnet Link zur GND in einem neuen Tab">
                                                     <xsl:attribute name="href">
                                                         <xsl:value-of select="$entity/tei:idno[@type='URL']/text()"/>
                                                     </xsl:attribute>

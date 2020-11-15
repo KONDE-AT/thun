@@ -251,7 +251,7 @@ declare function app:listPers($node as node(), $model as map(*)) {
                 {$bio}
             </td>
             <td>
-                <a href="{$idno}">{$idno}</a>
+                <a href="{$idno}" target="_blank" title="Öffnet Link zur GND in einem neuen Tab">{$idno}</a>
             </td>
         </tr>
 };
