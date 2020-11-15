@@ -265,13 +265,14 @@ declare function app:listPlace($node as node(), $model as map(*)) {
     let $lat := tokenize($place//tei:geo/text(), ' ')[1]
     let $lng := tokenize($place//tei:geo/text(), ' ')[2]
     let $idno := $place//tei:idno/text()
+    let $proper_idno := if (count($idno) gt 1) then <ul style="list-style-type:none">{for $x in $idno return <li><a href="{$x}">{$x}</a></li>}</ul> else <a href="{$idno}">{$idno}</a>
         return
         <tr>
             <td>
                 <a href="{concat($hitHtml, data($place/@xml:id))}">{functx:capitalize-first($place/tei:placeName[1])}</a>
             </td>
             <td>{for $altName in $place//tei:placeName return <li>{$altName/text()}</li>}</td>
-            <td><a href="{$idno}">{$idno}</a></td>
+            <td>{$proper_idno}</td>
             <td>{$lat}</td>
             <td>{$lng}</td>
         </tr>
