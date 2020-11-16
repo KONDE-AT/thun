@@ -42,23 +42,11 @@
                                             <xsl:value-of select="//tei:org[@xml:id=$entiyID]/tei:orgName[1]"/>
                                         </td>
                                     </tr>
-
-                                    <xsl:if test="count($entity//tei:orgName) &gt; 1">
-                                        <xsl:for-each select="$entity//tei:orgName[position()&gt;1]">
-                                            <tr>
-                                                <th>alternative names</th>
-                                                <td>
-                                                    <xsl:value-of select="."/>
-                                                </td>
-                                            </tr>
-                                        </xsl:for-each>
-                                    </xsl:if>
-
                                     <xsl:if test="$entity/tei:idno[@type='URL']">
                                         <tr>
                                             <th>URL:</th>
                                             <td>
-                                                <a>
+                                                <a target="_blank" title="Öffnet Link in einenm neuen Tab">
                                                     <xsl:attribute name="href">
                                                         <xsl:value-of select="$entity/tei:idno[@type='URL']/text()"/>
                                                     </xsl:attribute>
