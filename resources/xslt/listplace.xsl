@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tei="http://www.tei-c.org/ns/1.0" exclude-result-prefixes="tei" version="2.0">
     <xsl:import href="shared/base_index.xsl"/>
     <xsl:param name="entiyID"/>
@@ -21,7 +20,7 @@
                             <xsl:when test="$entity">
                                 <xsl:variable name="entity" select="//tei:place[@xml:id=$entiyID]"/>
                                 <div class="modal-header">
-                                    
+
                                     <h3 class="modal-title">
                                         <xsl:value-of select="$entity/tei:placeName[1]"/>
                                         <br/>
@@ -47,18 +46,17 @@
                                                 <xsl:value-of select="//tei:place[@xml:id=$entiyID]/tei:placeName[1]"/>
                                             </td>
                                         </tr>
-                                        
-                                        <xsl:if test="count($entity//tei:placeName) &gt; 1">
-                                            <xsl:for-each select="$entity//tei:placeName[position()&gt;1]">
-                                                <tr>
-                                                    <th>alternative names</th>
-                                                    <td>
-                                                        <xsl:value-of select="."/>
-                                                    </td>
-                                                </tr>
-                                            </xsl:for-each>
-                                        </xsl:if>
-                                        
+                                        <tr>
+                                            <th>Alternative Bezeichnungen</th>
+                                            <td>
+                                                <ul>
+                                                <xsl:for-each select="subsequence($entity//tei:placeName[position()&gt;1], 1, 3)">
+                                                    <li><xsl:value-of select="."/></li>
+                                                </xsl:for-each>
+                                                </ul>
+                                            </td>
+                                        </tr>
+
                                         <xsl:if test="$entity/tei:idno[@type='URL']">
                                             <tr>
                                                 <th>URL:</th>
@@ -76,25 +74,20 @@
                                             <tr>
                                                 <th>URL:</th>
                                                 <td>
-                                                    <xsl:value-of select="$entity/tei:idno/text()"/>
+                                                    <xsl:for-each select="$entity/tei:idno">
+                                                        <p>
+                                                            <a target="_blank" title="Öffnet Link in einenm neuen Tab">
+                                                                <xsl:attribute name="href">
+                                                                    <xsl:value-of select="./text()"/>
+                                                                </xsl:attribute>
+                                                                <xsl:value-of select="./text()"/>
+                                                            </a>
+                                                        </p>
+                                                    </xsl:for-each>
                                                 </td>
                                             </tr>
                                         </xsl:if>
                                     </table>
-                                    <div>
-                                        <h4 data-toggle="collapse" data-target="#more"> more (tei structure)</h4>
-                                        <div id="more" class="collapse">
-                                            <xsl:choose>
-                                                <xsl:when test="//*[@xml:id=$entiyID or @id=$entiyID]">
-                                                    <xsl:apply-templates select="//*[@xml:id=$entiyID or @id=$entiyID]" mode="start"/>
-                                                </xsl:when>
-                                                <xsl:otherwise>Looks like there exists no index entry for ID<strong>
-                                                    <xsl:value-of select="concat(' ', $entiyID)"/>
-                                                </strong> 
-                                                </xsl:otherwise>
-                                            </xsl:choose>
-                                        </div>
-                                    </div>
                                 </div>
                             </xsl:when>
                         </xsl:choose>
