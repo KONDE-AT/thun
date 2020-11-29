@@ -84,6 +84,7 @@
                         </div>
                         <div class="card-body">
                             <xsl:apply-templates select="//tei:physDesc"/>
+                            <xsl:apply-templates select="//tei:publicationStmt"/>
                         </div>
 
 
@@ -247,5 +248,7 @@
     <xsl:template match="tei:p[@rend='footnote text']">
         <xsl:apply-templates/>
     </xsl:template>
+
+    <xsl:template match="tei:idno[@type='handle']"></xsl:template>
 
 </xsl:stylesheet>
