@@ -20,3 +20,7 @@ a:not([href]):not([tabindex]) {
     text-decoration: none;
 }
 
+.markhighlight {
+    background: orange;
+    color: black;
+}
