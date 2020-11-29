@@ -83,4 +83,12 @@
             </div>
         </div>
     </xsl:template>
+
+    <xsl:template match="tei:ptr">
+        <a>
+            <xsl:attribute name="href"><xsl:value-of select="@target"/></xsl:attribute>
+            <xsl:attribute name="target">_blank</xsl:attribute>
+            <i class="fas fa-external-link-alt"></i>
+        </a>
+    </xsl:template>
 </xsl:stylesheet>
