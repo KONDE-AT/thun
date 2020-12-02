@@ -1,0 +1,88 @@
+i {
+  cursor: pointer;
+}
+
+.card {
+  border-top: none;
+}
+
+.card-header {
+  text-align: center;
+}
+
+.card-header h1 {
+  display: inline-block;
+  margin-bottom: 0;
+  padding-right: 5px;
+}
+
+.card-header a~a {
+  padding-left: 5px;
+}
+
+.card-body {
+  padding: 0.75em;
+}
+
+#filterrow input {
+  width: 100%;
+  padding: 3px;
+  box-sizing: border-box;
+}
+
+#myTable_filter {
+  text-align: left;
+}
+
+#myTable_info {
+  text-align: center;
+  padding-top: 0.45em;
+}
+
+.exportbuttons {
+  text-align: right;
+}
+
+#datatable .page-item.active .page-link {
+  background-color: #0063a6;
+  border-color: #0063a6;
+  color: white;
+}
+
+#datatable .page-link {
+  color: #0063a6;
+}
+
+table.dataTable.dtr-inline.collapsed>
+tbody>
+tr[role="row"]>
+
+td:first-child::before {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: '\f067';
+  background-color: transparent;
+  border: none;
+  color: #666;
+  box-shadow: none;
+}
+
+table.dataTable.dtr-inline.collapsed>
+tbody>
+tr.parent>
+
+td:first-child::before {
+  content: '\f068';
+}
+
+.btn-outline-green {
+  color: #0063a6;
+  background-color: transparent;
+  background-image: none;
+  border-color: #0063a6;
+  border-radius: 0;
+}
+
+#datatable .dropdown-item.active {
+  background-color: #0063a6;
+}
