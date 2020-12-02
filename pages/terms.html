@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <div data-template="templates:surround" data-template-with="templates/datatable.html" data-template-at="datatable">
     <div class="container">
         <div class="card">
@@ -16,13 +15,11 @@
                         <tr>
                             <th>Schlagwort</th>
                         </tr>
-                    </thead>
-                    <tfoot style="display:none">
-                        <tr>
-                            <th>Name</th>
+                        <tr id="filterrow">
+                            <th>Schlagwort</th>
                         </tr>
-                    </tfoot>
-                    <tbody id="myTableBody" style="display:none">
+                    </thead>
+                    <tbody id="myTableBody">
                         <tr data-template="app:listTerms"/>
                     </tbody>
                 </table>
@@ -39,7 +36,7 @@
                             Register aller vergebener Schlagworte.
                         </p>
                         <p>
-                            Die Sortierung der einzelnen Spalten kann durch einen Klick auf die Spaltenüberschrift geändert werden. Das Suchfeld rechts oberhalb der Tabelle durchsucht den gesamten Tabelleninhalt.
+                            Die Sortierung der einzelnen Spalten kann durch einen Klick auf die Spaltenüberschrift geändert werden. Das Suchfeld links oberhalb der Tabelle durchsucht den gesamten Tabelleninhalt. Darüberhinaus können mit Hilfe der Suchfelder über den Spalten diese gezielt durchsucht bzw. gefiltert werden.
                         </p>
                         <p>Die (ggf. gefilterte) Tabelle kann als PDF oder Excel heruntegalden bzw. in den Zwischenspeicher kopiert werden.</p>
                     </div>
@@ -50,39 +47,5 @@
             </div>
         </div>
     </div>
-    <script>
-        var table = $('#myTable').DataTable({
-        "language": {
-        "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/German.json"
-        },
-        keepConditions: true,
-        "pageLength": 25,
-        dom: 'Bfrtip',
-        buttons: [
-        'copy', 'excel', 'pdf'
-        ]
-        });
-        
-        $(document).ready(function() {
-        $("#myTableBody").show({});
-        $('#myTable tfoot th').each( function () {
-        var title = $(this).text();
-        $(this).html( '<input type="text"/>' );
-        });
-        $("#myTable tfoot").show();
-        table.columns().every( function () {
-        var that = this;
-        
-        $( 'input', this.footer() ).on( 'keyup change', function () {
-        if ( that.search() !== this.value ) {
-        that
-        .search( this.value )
-        .draw();
-        }
-        } );
-        } );
-        });
-        
-        
-    </script>
+    <script type="text/javascript" src="../resources/js/datatables/datatables.custom.js"/>
 </div>
