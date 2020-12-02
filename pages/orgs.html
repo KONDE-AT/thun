@@ -20,8 +20,12 @@
                         <th>Name</th>
                         <th>Normdaten</th>
                     </tr>
+                    <tr id="filterrow">
+                        <th>Name</th>
+                        <th>Normdaten</th>
+                    </tr>
                 </thead>
-                <tbody id="myTableBody" style="display:none">
+                <tbody id="myTableBody">
                     <tr data-template="app:listOrg"/>
                 </tbody>
             </table>
@@ -37,7 +41,7 @@
                             Der Name der jeweiligen Institution ist mit jenen Dokumenten verlinkt, in denen diese erwähnt wird.
                         </p>
                         <p>
-                            Die Sortierung der einzelnen Spalten kann durch einen Klick auf die Spaltenüberschrift geändert werden. Das Suchfeld rechts oberhalb der Tabelle durchsucht den gesamten Tabelleninhalt.
+                            Die Sortierung der einzelnen Spalten kann durch einen Klick auf die Spaltenüberschrift geändert werden. Das Suchfeld links oberhalb der Tabelle durchsucht den gesamten Tabelleninhalt. Darüberhinaus können mit Hilfe der Suchfelder über den Spalten diese gezielt durchsucht bzw. gefiltert werden.
                         </p>
                         <p>Die (ggf. gefilterte) Tabelle kann als PDF oder Excel heruntegalden bzw. in den Zwischenspeicher kopiert werden.</p>
                     </div>
@@ -49,19 +53,5 @@
         </div>
     </div>
     </div>
-    <script>var table = $('#myTable').DataTable({
-        "language": {
-        "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/German.json"
-        },
-        keepConditions: true,
-        dom: 'Bfrtip',
-        buttons: [
-        'copy', 'excel', 'pdf'
-        ]
-        });
-
-        $(document).ready(function() {
-        $("#myTableBody").show({
-        });
-        });</script>
+    <script type="text/javascript" src="../resources/js/datatables/datatables.custom.js"/>
 </div>
