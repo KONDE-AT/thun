@@ -8,3 +8,4 @@ bower_components
 /data/editions/test.xml
 /analyze/Untitled.xquery
 /tryouts/play.xql
+.vscode
