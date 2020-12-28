@@ -10,7 +10,7 @@ declare option exist:serialize "method=text media-type=text";
 let $root := "https://thun-korrespondenz.acdh.oeaw.ac.at/"
 
 let $prefix := 
-"#FORMAT: BEACONasdfsafasdf
+"#FORMAT: BEACON
 #MESSAGE: Thun Korrespondenz&#10;"
 
 let $nl := "&#10;"
