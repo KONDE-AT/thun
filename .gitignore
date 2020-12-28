@@ -9,3 +9,4 @@ bower_components
 /analyze/Untitled.xquery
 /tryouts/play.xql
 .vscode
+.existdb.json
