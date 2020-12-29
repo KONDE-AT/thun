@@ -76,7 +76,8 @@
                         <h3>Zitierhinweis</h3>
                         <blockquote class="blockquote">
                             <cite title="Source Title">
-                                Christof Aichner, Die Korrespondenz von Leo von Thun-Hohenstein, https://thun-korrespondenz.acdh.oeaw.ac.at/pages/show.html?document=about.xml&amp;directory=meta</cite>
+                                <xsl:value-of select="concat('Christof Aichner, Die Korrespondenz von Leo von Thun-Hohenstein, https://thun-korrespondenz.acdh.oeaw.ac.at/pages/show.html?document=', $document, '&amp;collection=', $collection-name)"/>
+                            </cite>
                         </blockquote>
                     </p>
                 </div>
