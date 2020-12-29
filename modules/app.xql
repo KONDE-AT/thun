@@ -2,7 +2,6 @@ xquery version "3.1";
 module namespace app="http://www.digital-archiv.at/ns/templates";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace functx = 'http://www.functx.com';
-import module namespace templates="http://exist-db.org/xquery/templates" ;
 import module namespace config="http://www.digital-archiv.at/ns/config" at "config.xqm";
 import module namespace kwic = "http://exist-db.org/xquery/kwic" at "resource:org/exist/xquery/lib/kwic.xql";
 
@@ -181,21 +180,23 @@ let $href := concat('show.html','?document=', app:getDocName($node), '&amp;direc
  : a fulltext-search function
  :)
  declare function app:ft_search($node as node(), $model as map (*)) {
- if (request:get-parameter("searchexpr", "") !="") then
- let $searchterm as xs:string:= request:get-parameter("searchexpr", "")
- for $hit in collection(concat($config:app-root, '/data/editions/'))//*[.//tei:p[ft:query(.,$searchterm)]]
-    let $collection := app:getColName($hit)
-    let $href := concat(app:hrefToDoc($hit, $collection), "&amp;searchexpr=", $searchterm)
-    let $score as xs:float := ft:score($hit)
-    order by $score descending
-    return
-    <tr>
-        <td>{$score}</td>
-        <td class="KWIC">{kwic:summarize($hit, <config width="40" link="{$href}" />)}</td>
-        <td><a href="{concat($href, "&amp;searchexpr=", $searchterm)}">{app:getDocName($hit)}</a></td>
-    </tr>
- else
-    <div>Nothing to search for</div>
+ if (request:get-parameter("searchexpr", "") !="")
+    then
+        let $searchterm as xs:string:= request:get-parameter("searchexpr", "")
+        for $hit in collection($app:editions)//tei:TEI[.//tei:p[ft:query(.,$searchterm)]]
+            let $doc := app:getDocName($hit)
+            let $collection := app:getColName($hit)
+            let $href := concat(app:hrefToDoc($hit, $collection), "&amp;searchexpr=", $searchterm)
+            let $score as xs:float := ft:score($hit)
+            order by $score descending
+            return
+            <tr>
+                <td>{$score}</td>
+                <td class="KWIC">{kwic:summarize($hit, <config width="40" link="{$href}" />)}</td>
+                <td><a href="{concat($href, "&amp;searchexpr=", $searchterm)}">{$doc}</a></td>
+            </tr>
+    else
+        <div>Nothing to search for</div>
  };
 
 declare function app:indexSearch_hits($node as node(), $model as map(*),  $searchkey as xs:string?, $path as xs:string?){

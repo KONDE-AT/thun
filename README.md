@@ -6,6 +6,7 @@ The data for this application can be found in the [thun-data](https://github.com
 
 ## install
 
-* clone the repo
+* clone the repo `https://github.com/KONDE-AT/thun.git`
+* initialize submodules: `git submodule update --init --recursive`
 * build the .xar package with `ant`
 * install the package in eXist-db via eXist-db's package manager.
