@@ -182,7 +182,8 @@ let $href := concat('show.html','?document=', app:getDocName($node), '&amp;direc
  declare function app:ft_search($node as node(), $model as map (*)) {
  if (request:get-parameter("searchexpr", "") !="")
     then
-        let $searchterm as xs:string:= request:get-parameter("searchexpr", "")
+        let $orig_searchterm as xs:string:= request:get-parameter("searchexpr", "")
+        let $searchterm := if (ends-with($orig_searchterm, "*")) then replace($orig_searchterm, '\*', '') else $orig_searchterm
         for $hit in collection($app:editions)//tei:TEI[.//tei:p[ft:query(.,$searchterm)]]
             let $doc := app:getDocName($hit)
             let $collection := app:getColName($hit)
