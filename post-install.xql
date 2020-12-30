@@ -14,9 +14,9 @@ for $resource in xmldb:get-child-resources(xs:anyURI($config:app-root||"/modules
 
 for $resource in xmldb:get-child-resources(xs:anyURI($config:app-root||"/ac/"))
     return sm:chmod(xs:anyURI($config:app-root||'/ac/'||$resource), "rwxrwxr-x"),
-
+(: 
 util:log("info", "adding xml-ids"),
-enrich:add_base_and_xmlid('https://id.acdh.oeaw.ac.at/thun/', 'editions'),
+enrich:add_base_and_xmlid('https://id.acdh.oeaw.ac.at/thun/', 'editions'), :)
 
 util:log("info", "adding mentions to index-files"),
 enrich:mentions('editions')

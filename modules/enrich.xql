@@ -96,9 +96,11 @@ declare function enrich:mentions($colName as xs:string) {
   let $collection := $app:data||'/'||'editions'
   for $x in collection($app:indices)//tei:*[name()='org' or name()='person' or name()='place']
     let $events := $x//tei:event
-    (: let $node_name := name($x) :)
+    let $node_name := name($x)
     let $remove_events := for $e in $events let $removed := update delete $e return <removed>{$e}</removed>
     let $ref := '#'||$x/@xml:id
+    let $lm := 'processing: '||$ref
+    let $l := util:log('info', $lm)
     for $doc in collection($collection)//tei:TEI[.//tei:rs[@ref=$ref]]
         let $doc_title := normalize-space(string-join($doc//tei:titleStmt/tei:title//text()[not(./parent::tei:note)], ''))
         let $handle := $doc//tei:idno[@type='handle']/text()
@@ -106,8 +108,8 @@ declare function enrich:mentions($colName as xs:string) {
             <tei:event type="mentioned">
                 <tei:desc>erwähnt in <tei:title ref="{$handle}">{$doc_title}</tei:title></tei:desc>
             </tei:event>
-        (: let $update := if ($node_name = 'place') then update insert $event_node following $x/tei:placeName else update insert $event_node into $x :)
-        let $update := update insert $event_node into $x
+        let $update := if ($node_name = 'place') then update insert $event_node following $x/tei:placeName else update insert $event_node into $x
+        (: let $update := update insert $event_node into $x :)
         return
             <result updated="{$ref}"/>
 };
