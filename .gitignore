@@ -10,3 +10,5 @@ bower_components
 /tryouts/play.xql
 .vscode
 .existdb.json
+thun.code-workspace
+play.xql
