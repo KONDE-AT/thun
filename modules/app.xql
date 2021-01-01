@@ -248,6 +248,7 @@ declare function app:listPers($node as node(), $model as map(*)) {
     let $functions := string-join($person//tei:p[1]//text(), ' ')
     let $bio := string-join($person//tei:p[2]//text(), ' ')
     let $idno := $person//tei:idno//text()
+    let $mentions := count($person//tei:event)
     let $name := if ($person/tei:persName/tei:surname)
         then $person/tei:persName/tei:surname/text()
         else $person/tei:persName/tei:name/text()
@@ -269,6 +270,7 @@ declare function app:listPers($node as node(), $model as map(*)) {
             <td>
                 <a href="{$idno}" target="_blank" title="Öffnet Link zur GND in einem neuen Tab">{$idno}</a>
             </td>
+            <td>{$mentions}</td>
         </tr>
 };
 
@@ -281,6 +283,7 @@ declare function app:listPlace($node as node(), $model as map(*)) {
     let $lat := tokenize($place//tei:geo/text(), ' ')[1]
     let $lng := tokenize($place//tei:geo/text(), ' ')[2]
     let $idno := $place//tei:idno/text()
+    let $mentions := count($place//tei:event)
     let $proper_idno := if (count($idno) gt 1) then
         for $x in $idno return
             <div><a title="Öffnet Link in neuem Tab" target="_blank" href="{$x}">{$x}</a></div>
@@ -295,6 +298,7 @@ declare function app:listPlace($node as node(), $model as map(*)) {
             <td>{$proper_idno}</td>
             <td>{$lat}</td>
             <td>{$lng}</td>
+            <td>{$mentions}</td>
         </tr>
 };
 
@@ -437,6 +441,7 @@ declare function app:listOrg($node as node(), $model as map(*)) {
             <td>
                 {$gnd_link}
             </td>
+            <td>{count($item//tei:event)}</td>
         </tr>
 };
 

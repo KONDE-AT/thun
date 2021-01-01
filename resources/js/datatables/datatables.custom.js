@@ -4,7 +4,7 @@ var table = $("#myTable").DataTable({
   },
   keepConditions: true,
   pageLength: 50,
-  orderCellsTop: false,
+  orderCellsTop: true,
   dom:
     "'<'row'<'col-sm-4'f><'col-sm-4'i><'col-sm-4 exportbuttons'Br>>'" +
     "'<'row'<'col-sm-12't>>'" +
