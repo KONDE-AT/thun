@@ -18,5 +18,11 @@ for $resource in xmldb:get-child-resources(xs:anyURI($config:app-root||"/ac/"))
 util:log("info", "adding xml-ids"),
 enrich:add_base_and_xmlid('https://id.acdh.oeaw.ac.at/thun/', 'editions'),
 
+util:log("info", "deleting entities without xml:id"),
+for $x in ('person', 'place', 'org')
+    return enrich:delete_entities_without_xmlid($x),
+
 util:log("info", "adding mentions to index-files"),
-enrich:mentions('editions')
+enrich:mentions('editions', 'org'),
+enrich:mentions('editions', 'person'),
+enrich:mentions('editions', 'place')
