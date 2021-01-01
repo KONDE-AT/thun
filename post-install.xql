@@ -25,4 +25,7 @@ for $x in ('person', 'place', 'org')
 util:log("info", "adding mentions to index-files"),
 enrich:mentions('editions', 'org'),
 enrich:mentions('editions', 'person'),
-enrich:mentions('editions', 'place')
+enrich:mentions('editions', 'place'),
+
+util:log("info", "remove tei:list* elements in tei:back"),
+enrich:delete_lists_in_back('editions')

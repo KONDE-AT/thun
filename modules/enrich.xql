@@ -98,7 +98,6 @@ declare function enrich:mentions($colName as xs:string, $ent_type as xs:string) 
   for $x at $count in collection($app:indices)//tei:*[name()=$ent_type]
     let $events := $x//tei:event
     let $event_list := $x//tei:listEvent
-    let $remove_events := for $e in $events let $removed := update delete $e return <removed>{$e}</removed>
     let $remove_events := for $e in $event_list let $removed := update delete $e return <removed>{$e}</removed>
 
     let $ref := '#'||$x/@xml:id
@@ -129,7 +128,7 @@ declare function enrich:mentions($colName as xs:string, $ent_type as xs:string) 
 };
 
 (:~
- : removes index-entries without xml:id
+ : deletes index-entries without xml:id
 
  : @param $colName The name of the data-collection to process, e.g. 'editions'
  : @param $ent_type The name of the entity, e.g. 'place', 'org' or 'person'
@@ -142,4 +141,33 @@ declare function enrich:delete_entities_without_xmlid($ent_type as xs:string) {
 
     return
       update delete $x
+};
+
+(:~
+ : deletes remove tei:list* elements in tei:back"
+
+ : @param $colName The name of the data-collection to process, e.g. 'editions'
+:)
+
+declare function enrich:delete_lists_in_back($colName) {
+  let $collection := $app:data||'/'||$colName
+  for $x at $count in collection($collection)//tei:back//*[starts-with(name(), 'list')]
+    return
+      update delete $x
+};
+
+(:~
+ : add index entries of mentioned entites into the document's back element
+
+ : @param $colName The name of the data-collection to process, e.g. 'editions'
+ : @param $ent_type The name of the entity, e.g. 'place', 'org' or 'person'
+:)
+
+declare function enrich:denormalize_index($colName as xs:string, $ent_type as xs:string) {
+  let $collection := $app:data||'/'||$colName
+  let $log_out: = util:log("info", "remove tei:list* elements in tei:back")
+  
+    for $x at $counter in collection($collection)//tei:TEI
+      let $l := util:log('info', $counter)
+      return $counter
 };
