@@ -94,6 +94,7 @@ declare function enrich:add_base_and_xmlid($archeURL as xs:string, $colName as x
 :)
 
 declare function enrich:mentions($colName as xs:string, $ent_type as xs:string) {
+  let $collection := $app:data||'/'||$colName
   for $x at $count in collection($app:indices)//tei:*[name()=$ent_type]
     let $events := $x//tei:event
     let $event_list := $x//tei:listEvent
@@ -105,7 +106,7 @@ declare function enrich:mentions($colName as xs:string, $ent_type as xs:string) 
     let $l := util:log('info', $lm)
     let $event_list_node := 
     <tei:listEvent>{
-    for $doc in collection($colName)//tei:TEI[.//tei:rs[@ref=$ref]]
+    for $doc in collection($collection)//tei:TEI[.//tei:rs[@ref=$ref]]
         let $doc_title := normalize-space(string-join($doc//tei:titleStmt/tei:title//text()[not(./parent::tei:note)], ''))
         let $handle := $doc//tei:idno[@type='handle']/text()
         return
