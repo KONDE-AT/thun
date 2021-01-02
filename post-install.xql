@@ -28,4 +28,8 @@ enrich:mentions('editions', 'person'),
 enrich:mentions('editions', 'place'),
 
 util:log("info", "remove tei:list* elements in tei:back"),
-enrich:delete_lists_in_back('editions')
+enrich:delete_lists_in_back('editions'),
+
+util:log("info", "denormalize indices"),
+for $x in ('person', 'place', 'org')
+    return enrich:denormalize_index('editions', $x)

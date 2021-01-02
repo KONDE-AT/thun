@@ -157,6 +157,23 @@ declare function enrich:delete_lists_in_back($colName) {
 };
 
 (:~
+ : checks for a tei:back element and creates it if missing
+
+ : @param $doc a tei document
+:)
+
+declare function enrich:get_or_create_back_node($doc) {
+  let $text_node := $doc//tei:text
+  let $check_node :=
+    if (exists($doc//tei:back)) then
+      true()
+    else
+      update insert <back xmlns="http://www.tei-c.org/ns/1.0" /> into $text_node
+  return $doc//tei:back 
+};
+
+
+(:~
  : add index entries of mentioned entites into the document's back element
 
  : @param $colName The name of the data-collection to process, e.g. 'editions'
@@ -165,9 +182,49 @@ declare function enrich:delete_lists_in_back($colName) {
 
 declare function enrich:denormalize_index($colName as xs:string, $ent_type as xs:string) {
   let $collection := $app:data||'/'||$colName
-  let $log_out: = util:log("info", "remove tei:list* elements in tei:back")
+  for $x in collection($collection)//tei:TEI
+    let $doc_id := data($x/@xml:id)
+    let $lm: = "adding list-"||$ent_type||" to document: "||$doc_id
+    let $l := util:log("info", $lm)
+    let $item_refs := distinct-values(data($x//tei:rs[@type=$ent_type]/@ref))
+    let $back := enrich:get_or_create_back_node($x)
+    let $index_list :=
+      switch($ent_type)
+      case 'org' return
+      <listOrg xmlns="http://www.tei-c.org/ns/1.0">
+          {
+          for $item in $item_refs
+          return
+          collection($app:indices)//id(substring-after($item, '#'))
+          }
+      </listOrg>
+      case 'place' return
+      <listPlace xmlns="http://www.tei-c.org/ns/1.0">
+          {
+          for $item in $item_refs
+          return
+          collection($app:indices)//id(substring-after($item, '#'))
+          }
+      </listPlace>
+      case 'bibl' return
+      <listBibl xmlns="http://www.tei-c.org/ns/1.0">
+          {
+          for $item in $item_refs
+          return
+          collection($app:indices)//id(substring-after($item, '#'))
+          }
+      </listBibl>
+      default return
+      <listPerson xmlns="http://www.tei-c.org/ns/1.0">
+          {
+          for $item in $item_refs
+          return
+          collection($app:indices)//id(substring-after($item, '#'))
+          }
+      </listPerson>
   
-    for $x at $counter in collection($collection)//tei:TEI
-      let $l := util:log('info', $counter)
-      return $counter
+  
+  where has-children($index_list)
+  return
+    update insert $index_list into $back
 };
