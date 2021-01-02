@@ -182,10 +182,12 @@ declare function enrich:get_or_create_back_node($doc) {
 
 declare function enrich:denormalize_index($colName as xs:string, $ent_type as xs:string) {
   let $collection := $app:data||'/'||$colName
-  for $x in collection($collection)//tei:TEI
+  let $doc_count := count(collection($collection)//tei:TEI)
+  for $x at $pos in collection($collection)//tei:TEI
     let $doc_id := data($x/@xml:id)
     let $lm: = "adding list-"||$ent_type||" to document: "||$doc_id
     let $l := util:log("info", $lm)
+    let $l := util:log("info", concat("processed ", $pos, "out of ", $doc_count, " documents"))
     let $item_refs := distinct-values(data($x//tei:rs[@type=$ent_type]/@ref))
     let $back := enrich:get_or_create_back_node($x)
     let $index_list :=
