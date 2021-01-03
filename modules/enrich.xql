@@ -110,7 +110,12 @@ declare function enrich:mentions($colName as xs:string, $ent_type as xs:string) 
         let $handle := $doc//tei:idno[@type='handle']/text()
         return
             <tei:event type="mentioned">
-                <tei:desc>erwähnt in <tei:title ref="{$handle}">{$doc_title}</tei:title></tei:desc>
+                <tei:desc>erwähnt in <tei:title>{$doc_title}</tei:title></tei:desc>
+                <tei:linkGrp>
+                  <tei:link type="relativ" target="{$colName||'/'||data($doc/@xml:id)}"/>
+                  <tei:link type="PID" target="{$handle}"/>
+                  <tei:link type="ARCHE" target="{data($doc/@xml:base)||'/'||data($doc/@xml:id)}"/>
+                </tei:linkGrp>
             </tei:event>
     }
     </tei:listEvent>
