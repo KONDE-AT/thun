@@ -14,6 +14,9 @@
     <xsl:variable name="signatur">
         <xsl:value-of select=".//tei:institution/text()"/>, <xsl:value-of select=".//tei:repository[1]/text()"/>, <xsl:value-of select=".//tei:msIdentifier/tei:idno[1]/text()"/>
     </xsl:variable>
+    <xsl:variable name="tei-source">
+        <xsl:value-of select="concat('../resolver/resolve-doc.xql?doc-name=', $document)"/>
+    </xsl:variable>
  <!--
 ##################################
 ### Seitenlayout und -struktur ###
@@ -45,7 +48,7 @@
                                 <i class="fas fa-info" title="show more info about the document" data-toggle="modal" data-target="#exampleModalLong"/>
                             </a>
                             |
-                            <a href="{$path2source}">
+                            <a href="{$tei-source}">
                                 <i class="fas fa-download" title="show TEI source"/>
                             </a>
                         </h2>
