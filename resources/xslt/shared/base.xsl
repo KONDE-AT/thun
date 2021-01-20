@@ -86,21 +86,22 @@
                     <xsl:attribute name="class">
                         <text>transcript</text>
                     </xsl:attribute>
+                    <a>
+                        <xsl:attribute name="name">
+                            <xsl:value-of select="lower-case(./@xml:id)"/>
+                        </xsl:attribute>
+                    </a>
                     <xsl:apply-templates/>
                 </div>
             </xsl:when><!-- Anlagen/Beilagen  -->
             <xsl:when test="@xml:id">
-                <a>
-                    <xsl:attribute name="name">
-                        <xsl:value-of select="lower-case(./@xml:id)"/>
-                    </xsl:attribute>
-                </a>
-
+                
                 <xsl:element name="div">
-
-                    <xsl:attribute name="name">
-                        <xsl:value-of select="@xml:id"/>
-                    </xsl:attribute>
+                    <a>
+                        <xsl:attribute name="name">
+                            <xsl:value-of select="lower-case(./@xml:id)"/>
+                        </xsl:attribute>
+                    </a>
                     <xsl:apply-templates/>
                 </xsl:element>
 
@@ -123,7 +124,7 @@
             <xsl:otherwise>
                 <xsl:element name="a">
                     <xsl:attribute name="href">
-                        <xsl:value-of select="@target"/>
+                        <xsl:value-of select="lower-case(@target)"/>
                     </xsl:attribute>
                     <xsl:value-of select="."/>
                 </xsl:element>
@@ -334,6 +335,15 @@
     </xsl:template><!-- Absätze    -->
     <xsl:template match="tei:p">
         <xsl:element name="p">
+            <xsl:choose>
+                <xsl:when test="@xml:id">
+                    <a>
+                        <xsl:attribute name="name">
+                            <xsl:value-of select="lower-case(@xml:id)"></xsl:value-of>
+                        </xsl:attribute>
+                    </a>
+                </xsl:when>
+            </xsl:choose>
             <xsl:apply-templates/>
         </xsl:element>
     </xsl:template><!-- Durchstreichungen -->
