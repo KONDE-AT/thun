@@ -29,7 +29,7 @@
     
     <xsl:template match = "tei:place">
         <xsl:copy>
-            <xsl:apply-templates select="*">
+            <xsl:apply-templates select="*|@*">
                 <xsl:sort select="substring-before($vOrdered, concat('|',name(),'|'))"/>
             </xsl:apply-templates>
         </xsl:copy>        
