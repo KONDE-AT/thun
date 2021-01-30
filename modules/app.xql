@@ -58,15 +58,25 @@ declare function functx:substring-after-last
              substring($arg,2))
  } ;
 
+
+ declare function app:contact($node as node(), $model as map(*)) {
+    let $payload := <p>Christof Aichner</p>
+        return $payload
+};
+
+
  (:~
  : fetches html snippets from ACDH's imprint service; Make sure you'll have $app:redmineBaseUrl and $app:redmineID set
  :)
 declare function app:fetchImprint($node as node(), $model as map(*)) {
-    let $url := $app:redmineBaseUrl||$app:redmineID
-    let $request :=
-    <http:request href="{$url}" method="GET"/>
-    let $response := http:send-request($request)
-        return $response[2]
+    let $lang := request:get-parameter("lang", "de")
+    let $url := $app:redmineBaseUrl||$app:redmineID||"&amp;outputLang="||$lang
+    let $payload :=
+        <div>
+            {doc($url)}
+        </div>
+
+        return $payload
 };
 
 (:~
