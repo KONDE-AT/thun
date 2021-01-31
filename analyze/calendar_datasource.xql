@@ -6,7 +6,7 @@ declare option exist:serialize "method=json media-type=text/javascript";
 
 for $x in collection($app:editions)//tei:TEI[.//tei:date[@when castable as xs:date]]
     let $startDate : = data($x//*[@when castable as xs:date][1]/@when)
-    let $name := normalize-space(string-join($x//tei:title[1]//text(), ' '))
+    let $name := normalize-space(string-join($x//tei:titleStmt/tei:title//text()[not(./parent::tei:note)], ''))
     let $id := app:hrefToDoc($x)
     return
         map {

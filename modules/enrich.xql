@@ -16,6 +16,29 @@ declare namespace acdh="https://vocabs.acdh.oeaw.ac.at/schema#";
 declare namespace rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 declare namespace util = "http://exist-db.org/xquery/util";
 
+
+(:~
+  : runs an xslt transformation over all documents in the given collection
+  :
+  : @param $collection The collection with the documents to transform
+  : @param $xsl-uri URI of the XSLT used for the transformation
+  : @return The URI of the processed document
+:)
+
+declare function enrich:bulk_transform($collection as xs:string, $xsl-uri as xs:string) as xs:string? {
+  let $xsl := doc($xsl-uri)
+  let $collection := $app:editions
+  for $doc in xmldb:get-child-resources(xs:anyURI($collection))
+      let $path := string-join(($collection, $doc), '/')
+      let $xml := doc($path)
+      let $params := <blank/>
+      let $out := transform:transform($xml, $xsl, $params)
+      let $store := xmldb:store($collection, $doc, $out)
+      return $store
+};
+
+
+
 (:~
  : registers a handle-pid for the passed in URL
  :
