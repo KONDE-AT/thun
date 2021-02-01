@@ -56,20 +56,6 @@
                                                 </ul>
                                             </td>
                                         </tr>
-
-                                        <xsl:if test="$entity/tei:idno[@type='URL']">
-                                            <tr>
-                                                <th>URL:</th>
-                                                <td>
-                                                    <a>
-                                                        <xsl:attribute name="href">
-                                                            <xsl:value-of select="$entity/tei:idno[@type='URL']/text()"/>
-                                                        </xsl:attribute>
-                                                        <xsl:value-of select="$entity/tei:idno[@type='URL']/text()"/>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        </xsl:if>
                                         <xsl:if test="$entity/tei:idno">
                                             <tr>
                                                 <th>URL:</th>
