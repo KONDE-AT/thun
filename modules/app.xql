@@ -330,7 +330,8 @@ declare function app:toc($node as node(), $model as map(*)) {
         else
             collection(concat($config:app-root, '/data/editions/'))[not(contains(.//tei:repository, 'Linie Tetschen, Nachlass Leo'))]
     for $title in $docs
-    let $sender := fn:normalize-space($title//tei:rs[@role=contains($title//tei:rs/@role,'sender') and 1]/text()[1])
+        let $doc_title := normalize-space(string-join($title//tei:titleStmt/tei:title//text()[not(./parent::tei:note)], '')) 
+        let $sender := fn:normalize-space($title//tei:rs[@role=contains($title//tei:rs/@role,'sender') and 1]/text()[1])
         let $sender_nn := if(fn:exists($title//tei:rs[@role=contains($title//tei:rs/@role,'sender') and 1]/text()))
                             then concat(functx:substring-after-last($sender,' '), ", ")
                             else "ohne Absender"
@@ -345,14 +346,20 @@ declare function app:toc($node as node(), $model as map(*)) {
                      else 'no place'
         let $wann := data($title//tei:date/@when)[1]
         let $zitat := normalize-space(string-join($title//tei:msIdentifier//text(), ' '))
+        let $href_link := app:hrefToDoc($title)
         return
         <tr>
-           <td>{$sender_nn}{$sender_vn}</td>
-           <td>{$empfänger_nn}{$empfänger_vn}</td>
-           <td align="center">{$wo}</td>
-           <td align="center"><abbr title="{$zitat}">{$wann}</abbr></td>
+            <td>{$doc_title}
+                <a href="{$href_link}" target="_blank" style="margin-left:0.3em">
+                    <i class="fas fa-external-link-alt"></i>
+                </a>
+            </td>
+            <td>{$sender_nn}{$sender_vn}</td>
+            <td>{$empfänger_nn}{$empfänger_vn}</td>
+            <td align="center">{$wo}</td>
+            <td align="center"><abbr title="{$zitat}">{$wann}</abbr></td>
             <td>
-                <a href="{app:hrefToDoc($title)}">{app:getDocName($title)}</a>
+                <a href="{$href_link}">{app:getDocName($title)}</a>
             </td>
         </tr>
 };
