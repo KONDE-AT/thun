@@ -1,20 +1,18 @@
 xquery version "3.0";
 declare namespace functx = "http://www.functx.com";
-import module namespace xmldb="http://exist-db.org/xquery/xmldb";
-import module namespace config="http://www.digital-archiv.at/ns/config" at "../modules/config.xqm";
 import module namespace app="http://www.digital-archiv.at/ns/templates" at "../modules/app.xql";
 declare namespace tei = "http://www.tei-c.org/ns/1.0";
 declare option exist:serialize "method=json media-type=text/javascript";
 
 let $data := <data>{
-    for $x at $pos in collection($app:editions)//tei:correspDesc[(.//@when[1] castable as xs:date)]
+    for $x at $pos in collection($app:editions)//tei:correspDesc[.//@when-iso]
     let $sender := string-join($x//tei:correspAction[@type='sent']/tei:rs[@type='person']/text(), ' ')
     let $backlink := app:hrefToDoc($x)
     let $receiver := string-join($x//tei:correspAction[@type='received']/tei:rs[@type='person']/text(), ' ')
     let $content := if ($receiver) 
         then $sender||' wrote to '||$receiver
         else $sender
-    let $date := data($x//@when[1])
+    let $date := data($x//@when-iso[1])
     let $year := year-from-date(xs:date($date))
     let $month := month-from-date(xs:date($date))
     let $day := day-from-date(xs:date($date))
@@ -25,7 +23,7 @@ let $data := <data>{
             {if ($receiver) then <receiver>{$receiver}</receiver> else ()}
             <content>{$content}</content>
             <backlink>{$backlink}</backlink>
-            <start>{data($x//@when[1])}</start>
+            <start>{$date}</start>
             <date>({$year},{$month},{$day})</date>
         </item>
 }</data>
