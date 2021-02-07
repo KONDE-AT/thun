@@ -31,7 +31,7 @@ declare %private function api:utils-list-collection-content($collection as xs:st
         let $content := 
             for $x in $result?sequence
                 let $id := util:document-name($x)
-                let $title := normalize-space(string-join($x//tei:title[1]//text(), ' '))
+                let $title := if ($x//tei:titleStmt//tei:title[@type="label"]) then $x//tei:titleStmt//tei:title[@type="label"]/text() else normalize-space(string-join($x//tei:titleStmt//tei:title[1]//text(), ' '))
                 let $self := string-join(($result?endpoint, $id), '/')
                 return
                     <data>
