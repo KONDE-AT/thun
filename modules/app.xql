@@ -330,7 +330,7 @@ declare function app:toc($node as node(), $model as map(*)) {
         else
             collection(concat($config:app-root, '/data/editions/'))[not(contains(.//tei:repository, 'Linie Tetschen, Nachlass Leo'))]
     for $title in $docs
-        let $doc_title := normalize-space(string-join($title//tei:titleStmt/tei:title//text()[not(./parent::tei:note)], '')) 
+        let $doc_title := $title//tei:title[@type="label"]/text()
         let $sender := fn:normalize-space($title//tei:rs[@role=contains($title//tei:rs/@role,'sender') and 1]/text()[1])
         let $sender_nn := if(fn:exists($title//tei:rs[@role=contains($title//tei:rs/@role,'sender') and 1]/text()))
                             then concat(functx:substring-after-last($sender,' '), ", ")

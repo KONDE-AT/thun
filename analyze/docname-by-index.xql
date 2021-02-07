@@ -10,7 +10,7 @@ let $collection := string-join(($app:data,$directory), '/')
 let $all := sort(xmldb:get-child-resources($collection))
 let $selectedDoc := $all[$index]
 let $doc := doc($collection||"/"||$selectedDoc)
-let $title := normalize-space(string-join($doc//tei:titleStmt//tei:title))
+let $title := $doc//tei:title[@type='label']/text()
 let $url := "show.html?document="||$all[$index]||"&amp;directory="||$directory
 let $result := map{
     "url": $url,

@@ -40,7 +40,7 @@
                     </div>
                     <div class="col-md-8">
                         <h2 align="center">
-                             <xsl:for-each select="//tei:fileDesc/tei:titleStmt/tei:title">
+                             <xsl:for-each select="//tei:fileDesc/tei:titleStmt/tei:title[1]">
                                 <xsl:apply-templates/>
                                 <br/>
                             </xsl:for-each>
@@ -159,7 +159,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLongTitle">
-                                <xsl:for-each select="//tei:fileDesc/tei:titleStmt/tei:title">
+                                <xsl:for-each select="//tei:fileDesc/tei:titleStmt/tei:title[1]">
                                     <xsl:apply-templates/>
                                     <br/>
                                 </xsl:for-each>
